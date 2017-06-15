@@ -20,7 +20,7 @@ public class RestServices {
         loginService.register(email, password, user, jobTitle);
     }
 
-    public boolean validateToken(String email, String token) throws IOException {
+    public boolean validateToken(String email, String token) {
         Jedis resource = RedisConnection.connect().getResource();
         LoginService loginService = new LoginService();
         return loginService.validateToken(email, token, resource);

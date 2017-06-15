@@ -16,17 +16,11 @@ public class LoginService {
         Jedis resource = connect.getResource();
         UserGateway gateway = new UserGateway(resource);
 
-        try {
-            User user = gateway.findUser(email);
-            if (user.getPassword().equals(password)) {
-		        return generateToken(user.getEmail(), user.getPassword(), resource);
-            }
-        } finally {
-            if(!connect.isClosed()) {
-                connect.close();
-            }
+        User user = gateway.findUser(email);
+        if(user == null || !user.getPassword().equals(password)) {
+            throw new WrongCredentialsException("Wrong credentials");
         }
-        throw new WrongCredentialsException("Wrong credentials");
+        return generateToken(user.getEmail(), user.getPassword(), resource);
     }
 
     public String generateToken(String email, String password, Jedis resource) {
@@ -38,8 +32,6 @@ public class LoginService {
             return tokenGenerated;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e.getMessage());
-        } finally {
-            resource.close();
         }
     }
 
