@@ -1,18 +1,27 @@
 package br.com.softplan.securityservice.redis;
 
-public class UserDTO {
+public class User {
 
-    private String user;
+    private String name;
     private String password;
     private String email;
     private String tokenActual;
+    private String jobTitle;
 
-    public String getUser() {
-        return user;
+    public String getJobTitle() {
+        return jobTitle;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

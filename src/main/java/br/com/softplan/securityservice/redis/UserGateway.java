@@ -11,28 +11,27 @@ public class UserGateway {
         this.resource = resource;
     }
 
-    public void register(String email, String user, String password) {
-        if (resource.exists(user)) {
+    public void register(String email, String password, String name, String jobTitle) {
+        if (resource.exists(name)) {
             throw new UserAlreadyExistsException();
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUser(user);
-        userDTO.setPassword(password);
-        userDTO.setEmail(email);
-        resource.set("login_" + user, new Gson().toJson(userDTO));
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setJobTitle(jobTitle);
+        resource.set(email, new Gson().toJson(user));
     }
 
-    public UserDTO findUser(String user) {
-        UserDTO userDTO = new Gson().fromJson(resource.get("login_" + user), UserDTO.class);
-        userDTO.setUser(userDTO.getUser().replace("login_", ""));
-        return userDTO;
+    public User findUser(String email) {
+        return new Gson().fromJson(resource.get(email), User.class);
     }
 
-    public void updateTokenSession(String user, String password, String tokenSession) {
-	    UserDTO userDTO = findUser(user);
-        userDTO.setTokenActual(tokenSession);
-        System.out.println("TokenSessionApplied: " + tokenSession + " for user " + user);
-        resource.set("login_" + user, new Gson().toJson(userDTO));
+    public void updateTokenSession(String email, String password, String tokenSession) {
+	    User user = findUser(email);
+        user.setTokenActual(tokenSession);
+        System.out.println("TokenSessionApplied: " + tokenSession + " for email " + email);
+        resource.set(email, new Gson().toJson(user));
     }
 }

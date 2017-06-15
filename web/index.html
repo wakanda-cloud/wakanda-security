@@ -72,12 +72,11 @@
 								<label class="sr-only" for="r-form-password">Password</label>
 								<input type="password" name="r-form-password" placeholder="Password..." class="r-form-password form-control" id="r-form-password">
 							</div>
-	                        <div class="form-group">
-	                        	<label class="sr-only" for="r-form-job-title">About yourself</label>
-	                        	<textarea name="r-form-job-title" placeholder="Job title"
-	                        				class="r-form-job-title form-control" id="r-form-job-title"></textarea>
-	                        </div>
-				            <button type="submit" class="btn" onclick="signUp()">Sign me up!</button>
+							<div class="form-group">
+								<label class="sr-only" for="r-form-job-title">Job Title</label>
+								<input type="text" name="r-form-job-title" placeholder="Job title..." class="r-form-job-title form-control" id="r-form-job-title">
+							</div>
+				            <button type="button" class="btn" id="signupBtn">Sign me up!</button>
 						</form>
                     </div>
                     <div class="col-sm-6 forms-right-icons">
@@ -117,7 +116,7 @@
 	                        	<label class="sr-only" for="l-form-password">Password</label>
 	                        	<input type="password" name="l-form-password" placeholder="Password..." class="l-form-password form-control" id="l-form-password">
 	                        </div>
-				            <button type="submit" class="btn" onclick="signIn()">Sign in!</button>
+				            <button type="button" class="btn" onclick="signIn()">Sign in!</button>
 				    	</form>
 				    	<div class="social-login">
                         	<p>Or login with:</p>
@@ -130,7 +129,7 @@
                     </div>
                     <div class="col-sm-6 forms-right-icons">
 						<div class="row">
-							<div class="col-sm-2 icon"><i class="fa fa-user"></i></div>
+							<div class="col-sm-2 icon"><i class="fa fa-name"></i></div>
 							<div class="col-sm-10">
 								<h3>New Features</h3>
 								<p>We added AngularJS API to help developers using angular to register statistics easier.</p>

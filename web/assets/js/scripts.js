@@ -1,14 +1,7 @@
 
 jQuery(document).ready(function() {
-	
-    /*
-        Fullscreen background
-    */
+
     $.backstretch("assets/img/backgrounds/1.jpg");
-    
-    /*
-        Forms show / hide
-    */
     $('.show-register-form').on('click', function(){
     	if( ! $(this).hasClass('active') ) {
     		$('.show-login-form').removeClass('active');
@@ -28,55 +21,15 @@ jQuery(document).ready(function() {
     		});
     	}
     });
-    
-    /*
-        Login form validation
-    */
-    $('.l-form input[type="text"], .l-form input[type="password"], .l-form textarea').on('focus', function() {
-    	$(this).removeClass('input-error');
-    });
-    
-    $('.l-form').on('submit', function(e) {
-    	
-    	$(this).find('input[type="text"], input[type="password"], textarea').each(function(){
-    		if( $(this).val() == "" ) {
-    			e.preventDefault();
-    			$(this).addClass('input-error');
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-    		}
-    	});
-    	
-    });
-    
-    /*
-        Registration form validation
-    */
-    $('.r-form input[type="text"], .r-form textarea').on('focus', function() {
-    	$(this).removeClass('input-error');
-    });
-    
-    $('.r-form').on('submit', function(e) {
-    	
-    	$(this).find('input[type="text"], textarea').each(function(){
-    		if( $(this).val() == "" ) {
-    			e.preventDefault();
-    			$(this).addClass('input-error');
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-    		}
-    	});
 
-    	signUp();
-        $('.show-login-form').click();
-        e.preventDefault();
-    });
-
-    function signUp() {
+    $('#signupBtn').on('click', function() {
         var password = CryptoJS.MD5($('#r-form-password').val()).toString();
-        var data = {"email": $('#r-form-email').val(), "user": $('#r-form-first-name').val(), "password": password};
+        var data = {
+            "email": $('#r-form-email').val(),
+            "user": $('#r-form-first-name').val(),
+            "password": password,
+            "jobTitle" : $('#r-form-job-title').val()
+        };
 
         var settings = {
             "async": false,
@@ -84,11 +37,11 @@ jQuery(document).ready(function() {
             "url": "http://localhost:8080/registerUser",
             "method": "POST",
             "headers": {
-                "content-type": "application/x-www-form-urlencoded",
+                "content-type": "application/json",
                 "cache-control": "no-cache"
             },
             "data": data
-        }
+        };
 
         $.ajax(settings).success(function() {
             alert('Ok');
@@ -96,7 +49,7 @@ jQuery(document).ready(function() {
             console.log(jqXHR.responseText);
             alert("Wrong credentials: " + jqXHR.responseJSON.message);
         });
-    }
+    });
 
     function signIn() {
         var pass = CryptoJS.MD5($('#l-form-password').val()).toString();
