@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 
         $.ajax({
             "crossDomain": true,
-            "url": "http://localhost:8080/registerUser",
+            "url": "https://wakandaservice.herokuapp.com/registerUser",
             "method": "POST",
             "headers": {
                 "content-type": "application/json",
@@ -90,7 +90,7 @@ jQuery(document).ready(function() {
 
         let ajaxData = {
             "crossDomain": true,
-            "url": "http://localhost:8080/login",
+            "url": "https://wakandaservice.herokuapp.com/login",
             "method": "POST",
             "headers": {
                 "content-type": "application/x-www-form-urlencoded",
