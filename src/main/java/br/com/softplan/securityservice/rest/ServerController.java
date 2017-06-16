@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,21 +40,22 @@ public class ServerController extends RestServices {
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/registerUser",
-                    consumes = MediaType.APPLICATION_JSON_VALUE,
-                    method = RequestMethod.POST)
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            method = RequestMethod.POST)
     public void registerUser(@RequestBody RegisterData registerData) {
         System.out.println("Cheguei");
-        String email = registerData.email;
-        String password = registerData.password;
-        String user = registerData.user;
-        String jobTitle = registerData.jobTitle;
+        String email = registerData.getEmail();
+        String password = registerData.getPassword();
+        String user = registerData.getUser();
+        String jobTitle = registerData.getJobTitle();
+        System.out.println(email + password + user + jobTitle);
         super.registerUser(email, password, user, jobTitle);
     }
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/getDashboardData", method = RequestMethod.GET)
     public void getDashboardData(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(super.validateToken(email, token)) {
+        if (super.validateToken(email, token)) {
             response.setStatus(Response.SC_OK);
             response.getWriter().write("fake dashboard");
         } else {
@@ -93,7 +93,7 @@ public class ServerController extends RestServices {
     @RequestMapping(value = "/getProjects", method = RequestMethod.GET)
     public void getProjects(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<WakandaInstanceData> projects = super.findProjects(email);
-        if(projects == null || projects.isEmpty()) {
+        if (projects == null || projects.isEmpty()) {
             response.setStatus(Response.SC_NO_CONTENT);
         } else {
             response.setStatus(Response.SC_OK);
@@ -108,8 +108,40 @@ public class ServerController extends RestServices {
 }
 
 class RegisterData {
-    String email;
-    String user;
-    String password;
-    String jobTitle;
+    private String email;
+    private String user;
+    private String password;
+    private String jobTitle;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
 }
