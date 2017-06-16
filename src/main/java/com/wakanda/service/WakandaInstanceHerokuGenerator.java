@@ -24,14 +24,12 @@ public class WakandaInstanceHerokuGenerator {
             commands.add("git -C " + workFolder + "/<wakandaname> commit -m \"'WakandaService'\" ");
             commands.add("git -C " + workFolder + "/<wakandaname> push heroku master");
             commands.add("rm " + workFolder + " -rf");
-            commands.add("heroku open --app <wakandaname>");
 
             for (String command : commands) {
                 command = command.replace("<wakandaname>", data.getName());
                 System.out.println(command);
                 exec(data, command);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalArgumentException("Its not possibile run command line on this machine");
@@ -43,26 +41,27 @@ public class WakandaInstanceHerokuGenerator {
 
     private void exec(WakandaInstanceData data, String command) throws IOException, InterruptedException {
         Process p = Runtime.getRuntime().exec(command);
-        p.waitFor();
-
         String line;
 
         BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
         while((line=input.readLine()) != null){
             System.out.println(line);
+            WakandaLogger.getInstance(data.getOwnerEmail()).push(line);
         }
         input.close();
 
         BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         while((line = error.readLine()) != null){
             System.out.println(line);
+            WakandaLogger.getInstance(data.getOwnerEmail()).push(line);
         }
         error.close();
-
+        p.waitFor();
         OutputStream outputStream = p.getOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         printStream.println();
         printStream.flush();
         printStream.close();
+
     }
 }

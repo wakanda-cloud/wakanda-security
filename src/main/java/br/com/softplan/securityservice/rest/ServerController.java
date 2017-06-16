@@ -1,7 +1,9 @@
 package br.com.softplan.securityservice.rest;
 
 import br.com.softplan.securityservice.service.WrongCredentialsException;
+import com.google.gson.Gson;
 import com.wakanda.service.WakandaInstanceData;
+import com.wakanda.service.WakandaLogger;
 import org.apache.catalina.connector.Response;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,9 +66,39 @@ public class ServerController extends RestServices {
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/generate", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public void generate(@RequestBody WakandaInstanceData data, HttpServletResponse response) throws IOException {
-        super.generate(data);
+        try {
+            super.generate(data);
+            response.setStatus(Response.SC_OK);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(Response.SC_CONFLICT);
+            response.getWriter().write(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(Response.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin(origins = "*", maxAge = 3600)
+    @RequestMapping(value = "/getLogs", method = RequestMethod.GET)
+    public void getLogs(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<String> pull = WakandaLogger.getInstance(email).pull();
+        String logs = "";
+        for (String log : pull) {
+            logs = logs + "<br>" + log;
+        }
+        response.getWriter().write(logs);
         response.setStatus(Response.SC_OK);
-        response.getWriter().write("Please wait few seconds, we working to turn up your wakanda cloud.");
+    }
+
+    @CrossOrigin(origins = "*", maxAge = 3600)
+    @RequestMapping(value = "/getProjects", method = RequestMethod.GET)
+    public void getProjects(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<WakandaInstanceData> projects = super.findProjects(email);
+        if(projects == null || projects.isEmpty()) {
+            response.setStatus(Response.SC_NO_CONTENT);
+        } else {
+            response.setStatus(Response.SC_OK);
+            response.getWriter().write(new Gson().toJson(projects));
+        }
     }
 
     private void responseException(HttpServletResponse response, Exception e) throws IOException {
