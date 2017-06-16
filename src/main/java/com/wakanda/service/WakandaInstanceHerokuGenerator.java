@@ -13,16 +13,16 @@ public class WakandaInstanceHerokuGenerator{
             commands.add("rm -rf " + workFolder);
             commands.add("mkdir " + workFolder);
             commands.add("git clone http://github.com/lucasventurasc/wakanda.git " + workFolder + "/wakanda");
-            commands.add("programs//heroku create <wakandaname>");
-            commands.add("programs//heroku config:set DECRYPT_KEY=" + data.getDecryptKey());
-            commands.add("programs//heroku config:set SECURITY_KEY=" + data.getSecurityToken());
-            commands.add("programs//heroku addons:create programs//heroku-redis:hobby-dev --app <wakandaname>");
-            commands.add("programs//heroku git:clone -a <wakandaname> " + workFolder + "/<wakandaname>");
+            commands.add("programs//heroku//heroku create <wakandaname>");
+            commands.add("programs//heroku//heroku config:set DECRYPT_KEY=" + data.getDecryptKey());
+            commands.add("programs//heroku//heroku config:set SECURITY_KEY=" + data.getSecurityToken());
+            commands.add("programs//heroku//heroku addons:create programs//heroku//heroku-redis:hobby-dev --app <wakandaname>");
+            commands.add("programs//heroku//heroku git:clone -a <wakandaname> " + workFolder + "/<wakandaname>");
             commands.add("rm -rf " + workFolder + "/wakanda/.git");
             commands.add("cp -R " + workFolder + "/wakanda/. " + workFolder + "/<wakandaname>");
             commands.add("git -C " + workFolder + "/<wakandaname> add .");
             commands.add("git -C " + workFolder + "/<wakandaname> commit -m \"'WakandaService'\" ");
-            commands.add("git -C " + workFolder + "/<wakandaname> push programs//heroku master");
+            commands.add("git -C " + workFolder + "/<wakandaname> push programs//heroku//heroku master");
             commands.add("rm " + workFolder + " -rf");
 
             for (String command : commands) {
