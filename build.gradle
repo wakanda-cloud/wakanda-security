@@ -36,5 +36,5 @@ dependencies {
 }
 
 springBoot {
-    mainClass = "br.com.softplan.securityservice.rest.ServerController";
+    mainClass = "com.wakanda.security.rest.ServerController"
 }
