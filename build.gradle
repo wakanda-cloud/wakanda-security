@@ -1,4 +1,4 @@
-group 'wakandaservice'
+group 'wakanda-security'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
