@@ -31,6 +31,9 @@ public class ServerController extends RestServices {
         } catch (WrongCredentialsException e) {
             Logger.getLogger("ServerController").log(Level.ALL, "Responding " + Response.SC_UNAUTHORIZED + " for " + email);
             response.setStatus(Response.SC_UNAUTHORIZED);
+        } catch(Exception e) {
+            response.setStatus(400);
+            response.getWriter().write(e.getMessage());
         }
     }
 
@@ -38,14 +41,20 @@ public class ServerController extends RestServices {
     @RequestMapping(value = "/registerUser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             method = RequestMethod.POST)
-    public void registerUser(@RequestBody RegisterData registerData) {
+    public void registerUser(@RequestBody RegisterData registerData, HttpServletResponse response) throws IOException {
         System.out.println("Cheguei");
         String email = registerData.getEmail();
         String password = registerData.getPassword();
         String user = registerData.getUser();
         String jobTitle = registerData.getJobTitle();
         System.out.println(email + password + user + jobTitle);
-        super.registerUser(email, password, user, jobTitle);
+        try {
+            super.registerUser(email, password, user, jobTitle);
+            response.setStatus(200);
+        } catch(Exception e) {
+            response.setStatus(400);
+            response.getWriter().write(e.getMessage());
+        }
     }
 
     @CrossOrigin(origins = "*", maxAge = 3600)
