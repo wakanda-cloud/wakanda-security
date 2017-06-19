@@ -39,11 +39,7 @@ public class LoginService {
         Jedis resource = RedisConnection.connect().getResource();
         UserGateway gateway = new UserGateway(resource);
 
-        try {
-            gateway.register(email, password, userName, jobTitle);
-        } finally {
-            resource.close();
-        }
+        gateway.register(email, password, userName, jobTitle);
     }
 
     public boolean validateToken(String email, String token, Jedis resource) {

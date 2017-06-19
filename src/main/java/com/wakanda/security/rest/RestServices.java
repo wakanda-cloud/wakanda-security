@@ -3,6 +3,7 @@ package com.wakanda.security.rest;
 import com.wakanda.security.redis.RedisConnection;
 import com.wakanda.security.service.LoginService;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
 
@@ -19,7 +20,9 @@ public class RestServices {
     }
 
     public boolean validateToken(String email, String token) {
-        Jedis resource = RedisConnection.connect().getResource();
+        JedisPool connect = RedisConnection.connect();
+        System.out.println("Peguei a instancia e tentarei conectar");
+        Jedis resource = connect.getResource();
         System.out.println("Conectei no redis");
         LoginService loginService = new LoginService();
         return loginService.validateToken(email, token, resource);
