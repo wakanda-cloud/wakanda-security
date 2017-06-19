@@ -61,6 +61,7 @@ public class ServerController extends RestServices {
     @RequestMapping(value = "/verifyToken", method = RequestMethod.GET)
     public void verifyToken(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            System.out.println("Cheguei verify token");
             if (super.validateToken(email, token)) {
                 response.setStatus(Response.SC_OK);
             } else {

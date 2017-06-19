@@ -48,7 +48,9 @@ public class LoginService {
 
     public boolean validateToken(String email, String token, Jedis resource) {
         UserGateway userGateway = new UserGateway(resource);
+        System.out.println("Buscarei usuario ");
         User user = userGateway.findUser(email);
+
         String actualToken = user.getTokenActual();
 
         System.out.println("User: " + email + " - ActualToken: " + actualToken);

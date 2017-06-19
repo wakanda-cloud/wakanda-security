@@ -20,6 +20,7 @@ public class RestServices {
 
     public boolean validateToken(String email, String token) {
         Jedis resource = RedisConnection.connect().getResource();
+        System.out.println("Conectei no redis");
         LoginService loginService = new LoginService();
         return loginService.validateToken(email, token, resource);
     }
