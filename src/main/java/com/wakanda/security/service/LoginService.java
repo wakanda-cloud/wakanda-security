@@ -1,10 +1,9 @@
 package com.wakanda.security.service;
 
-import com.wakanda.security.redis.User;
 import com.wakanda.security.redis.RedisConnection;
+import com.wakanda.security.redis.User;
 import com.wakanda.security.redis.UserGateway;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,8 +11,7 @@ import java.security.NoSuchAlgorithmException;
 public class LoginService {
 
     public String login(String email, String password) {
-        JedisPool connect = RedisConnection.connect();
-        Jedis resource = connect.getResource();
+        Jedis resource = RedisConnection.connect();
         UserGateway gateway = new UserGateway(resource);
 
         User user = gateway.findUser(email);
@@ -36,7 +34,7 @@ public class LoginService {
     }
 
     public void register(String email, String password, String userName, String jobTitle) {
-        Jedis resource = RedisConnection.connect().getResource();
+        Jedis resource = RedisConnection.connect();
         UserGateway gateway = new UserGateway(resource);
 
         gateway.register(email, password, userName, jobTitle);

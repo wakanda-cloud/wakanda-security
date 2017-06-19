@@ -1,5 +1,6 @@
 package com.wakanda.security.redis;
 
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
@@ -12,13 +13,13 @@ public class RedisConnection {
     private RedisConnection() {
     }
 
-    private static JedisPool instance;
+    private static Jedis instance;
 
-    public static JedisPool connect() {
+    public static Jedis connect() {
         try {
             if(instance == null) {
                 URI redisUri = new URI(System.getenv("REDISCLOUD_URL"));
-                instance = new JedisPool(new JedisPoolConfig(), redisUri.getHost(), redisUri.getPort(), Protocol.DEFAULT_TIMEOUT, redisUri.getUserInfo().split(":", 2)[1]);
+                instance = new JedisPool(new JedisPoolConfig(), redisUri.getHost(), redisUri.getPort(), Protocol.DEFAULT_TIMEOUT, redisUri.getUserInfo().split(":", 2)[1]).getResource();
             }
             return instance;
         } catch (Exception e) {
