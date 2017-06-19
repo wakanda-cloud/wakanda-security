@@ -60,16 +60,16 @@ public class ServerController extends RestServices {
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/verifyToken", method = RequestMethod.GET)
     public void verifyToken(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (super.validateToken(email, token)) {
-            response.setStatus(Response.SC_OK);
-        } else {
-            response.setStatus(Response.SC_UNAUTHORIZED);
+        try {
+            if (super.validateToken(email, token)) {
+                response.setStatus(Response.SC_OK);
+            } else {
+                response.setStatus(Response.SC_UNAUTHORIZED);
+            }
+        } catch(Exception e) {
+            response.setStatus(Response.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(e.getMessage());
         }
-    }
-
-    private void responseException(HttpServletResponse response, Exception e) throws IOException {
-        response.getWriter().write(e.getMessage());
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 }
 
