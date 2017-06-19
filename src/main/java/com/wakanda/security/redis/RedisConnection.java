@@ -17,7 +17,7 @@ public class RedisConnection {
     public static JedisPool connect() {
         try {
             if(instance == null) {
-                URI redisUri = new URI(System.getenv("REDIS_URL"));
+                URI redisUri = new URI(System.getenv("REDISCLOUD_URL"));
                 instance = new JedisPool(new JedisPoolConfig(), redisUri.getHost(), redisUri.getPort(), Protocol.DEFAULT_TIMEOUT, redisUri.getUserInfo().split(":", 2)[1]);
             }
             return instance;
