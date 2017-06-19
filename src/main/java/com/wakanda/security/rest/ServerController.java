@@ -58,11 +58,10 @@ public class ServerController extends RestServices {
     }
 
     @CrossOrigin(origins = "*", maxAge = 3600)
-    @RequestMapping(value = "/getDashboardData", method = RequestMethod.GET)
-    public void getDashboardData(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/verifyToken", method = RequestMethod.GET)
+    public void verifyToken(@RequestParam("email") String email, @RequestParam("token") String token, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (super.validateToken(email, token)) {
             response.setStatus(Response.SC_OK);
-            response.getWriter().write("fake dashboard");
         } else {
             response.setStatus(Response.SC_UNAUTHORIZED);
         }
