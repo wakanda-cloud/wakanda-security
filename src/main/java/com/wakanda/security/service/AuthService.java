@@ -1,29 +1,35 @@
-package com.wakanda.security.rest;
-
-import com.wakanda.security.redis.RedisConnection;
-import com.wakanda.security.service.LoginService;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+package com.wakanda.security.service;
 
 import java.io.IOException;
 
-public class RestServices {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wakanda.security.infrastructure.redis.RedisConnection;
+
+import redis.clients.jedis.Jedis;
+
+@Service
+public class AuthService {
+
+	@Autowired
+	private RedisConnection redisConnection;
+	
+	@Autowired
+	private LoginService loginService;
 
     public String login(String email, String password) throws IOException {
-        LoginService loginService = new LoginService();
         return loginService.login(email, password);
     }
 
     public void registerUser(String email, String password, String user, String jobTitle) {
-        LoginService loginService = new LoginService();
         loginService.register(email, password, user, jobTitle);
     }
 
     public boolean validateToken(String email, String token) {
         System.out.println("Conectarei diretamente na instancia Resource");
-        Jedis resource = RedisConnection.connect();
-        System.out.println("Conectei no redis");
-        LoginService loginService = new LoginService();
+        Jedis resource = redisConnection.connect();
+        System.out.println("Redis Connected");
         return loginService.validateToken(email, token, resource);
     }
 }

@@ -1,17 +1,25 @@
 package com.wakanda.security.service;
 
-import com.wakanda.security.redis.RedisConnection;
-import com.wakanda.security.redis.User;
-import com.wakanda.security.redis.UserGateway;
-import redis.clients.jedis.Jedis;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wakanda.security.infrastructure.redis.RedisConnection;
+import com.wakanda.security.infrastructure.redis.User;
+import com.wakanda.security.infrastructure.redis.UserGateway;
+
+import redis.clients.jedis.Jedis;
+
+@Service
 public class LoginService {
+	
+	@Autowired
+	private RedisConnection redisConnection;
 
     public String login(String email, String password) {
-        Jedis resource = RedisConnection.connect();
+        Jedis resource = redisConnection.connect();
         UserGateway gateway = new UserGateway(resource);
 
         User user = gateway.findUser(email);
@@ -34,7 +42,7 @@ public class LoginService {
     }
 
     public void register(String email, String password, String userName, String jobTitle) {
-        Jedis resource = RedisConnection.connect();
+        Jedis resource = redisConnection.connect();
         UserGateway gateway = new UserGateway(resource);
 
         gateway.register(email, password, userName, jobTitle);
@@ -45,6 +53,10 @@ public class LoginService {
         System.out.println("Buscarei usuario ");
         User user = userGateway.findUser(email);
 
+        if(user == null) {
+        	return false;
+        }
+        
         String actualToken = user.getTokenActual();
 
         System.out.println("User: " + email + " - ActualToken: " + actualToken);

@@ -5,6 +5,9 @@ spring:
 server:
   port: 4919
   
+redis:
+  url: redis://127.0.0.1:6379/0
+
 info:
   java-vendor: ${java.specification.vendor}
   app:

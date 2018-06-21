@@ -1,4 +1,4 @@
-package com.wakanda.security.redis;
+package com.wakanda.security.infrastructure.redis;
 
 import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
