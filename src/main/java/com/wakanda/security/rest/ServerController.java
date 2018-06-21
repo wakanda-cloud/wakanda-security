@@ -1,25 +1,25 @@
 package com.wakanda.security.rest;
 
-import com.wakanda.security.service.WrongCredentialsException;
-import org.apache.catalina.connector.Response;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@RestController
-@SpringBootApplication
-public class ServerController extends RestServices {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-    public static void main(String[] args) {
-        SpringApplication.run(ServerController.class, args);
-    }
+import org.apache.catalina.connector.Response;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wakanda.security.service.WrongCredentialsException;
+
+@RestController
+public class ServerController extends RestServices {
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @RequestMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, method = RequestMethod.POST)

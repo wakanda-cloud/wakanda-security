@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: wakanda-security
+    
+server:
+  port: 4919
+  
+info:
+  java-vendor: ${java.specification.vendor}
+  app:
+    name: Wakanda Security
+    description: Security microservice to handle authentications
+    version: "@project.version@"
