@@ -2,6 +2,11 @@ spring:
   application:
     name: wakanda-security
     
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL}
+        
 server:
   port: 4919
   
