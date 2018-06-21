@@ -13,3 +13,4 @@ ARG DOptions=""
 
 RUN echo "java -Djava.security.egd=file:/dev/./urandom -Xms128m -Xmx128m ${DOptions} -jar /build/app.jar" >> /build/entrypoint.sh
 RUN chmod 777 /build/entrypoint.sh
+CMD ["/build/entrypoint.sh"]
