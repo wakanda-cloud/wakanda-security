@@ -1,13 +1,5 @@
 FROM siengedev/jdk8-with-dockerize:0.1
 
-RUN apk add --update wget
-RUN apk add --update bash && rm -rf /var/cache/apk/*
-
-ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
 ADD build/libs/*.jar /build/app.jar
 ARG DOptions=""
 
