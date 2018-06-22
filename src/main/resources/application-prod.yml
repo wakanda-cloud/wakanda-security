@@ -2,3 +2,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVICE_URL}
+      
+redis:
+  url: ${REDIS_URL}
