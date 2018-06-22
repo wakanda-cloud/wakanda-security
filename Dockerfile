@@ -11,6 +11,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 ADD build/libs/*.jar /build/app.jar
 ARG DOptions=""
 
-RUN echo "java -Djava.security.egd=file:/dev/./urandom -Xms128m -Xmx128m ${DOptions} -jar /build/app.jar" >> /build/entrypoint.sh
+RUN echo "java -Djava.security.egd=file:/dev/./urandom -Xms128m -Xmx128m ${DOptions} \$1 -jar /build/app.jar" >> /build/entrypoint.sh
 RUN chmod 777 /build/entrypoint.sh
-CMD ["/build/entrypoint.sh"]
+CMD ["sh", "-c", "/build/entrypoint.sh"]
