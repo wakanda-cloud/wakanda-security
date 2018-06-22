@@ -5,18 +5,16 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wakanda.security.infrastructure.redis.RedisConnection;
-
-import redis.clients.jedis.Jedis;
+import com.wakanda.security.infrastructure.redis.UserSessionHandler;
 
 @Service
 public class AuthService {
 
 	@Autowired
-	private RedisConnection redisConnection;
+	private LoginService loginService;
 	
 	@Autowired
-	private LoginService loginService;
+	private UserSessionHandler userSessionHandler;
 
     public String login(String email, String password) throws IOException {
         return loginService.login(email, password);
@@ -27,9 +25,6 @@ public class AuthService {
     }
 
     public boolean validateToken(String email, String token) {
-        System.out.println("Conectarei diretamente na instancia Resource");
-        Jedis resource = redisConnection.connect();
-        System.out.println("Redis Connected");
-        return loginService.validateToken(email, token, resource);
+        return userSessionHandler.isValidToken(email, token);
     }
 }

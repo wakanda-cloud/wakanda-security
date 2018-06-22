@@ -1,18 +1,21 @@
 package com.wakanda.security.infrastructure.redis;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
+
 import redis.clients.jedis.Jedis;
 
+@Component
 public class UserGateway {
 
-    private Jedis resource;
-
-    public UserGateway(Jedis resource) {
-        this.resource = resource;
-    }
-
+	@Autowired
+	private RedisConnection redisConnection;
+	
     public void register(String email, String password, String name, String jobTitle) {
-        if (resource.exists(name)) {
+        Jedis resource = redisConnection.connect();
+		if (resource.exists(name)) {
             throw new UserAlreadyExistsException();
         }
 
@@ -25,13 +28,6 @@ public class UserGateway {
     }
 
     public User findUser(String email) {
-        return new Gson().fromJson(resource.get(email), User.class);
-    }
-
-    public void updateTokenSession(String email, String password, String tokenSession) {
-	    User user = findUser(email);
-        user.setTokenActual(tokenSession);
-        System.out.println("TokenSessionApplied: " + tokenSession + " for email " + email);
-        resource.set(email, new Gson().toJson(user));
+        return new Gson().fromJson(redisConnection.connect().get(email), User.class);
     }
 }
