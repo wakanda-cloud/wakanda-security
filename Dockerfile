@@ -1,4 +1,4 @@
-FROM openjdk:8-alpine
+FROM siengedev/jdk8-with-dockerize:0.1
 
 RUN apk add --update wget
 RUN apk add --update bash && rm -rf /var/cache/apk/*
