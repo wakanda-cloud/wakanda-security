@@ -1,4 +1,4 @@
-package com.wakanda.security.infrastructure.redis;
+package com.wakanda.security.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.wakanda.security.infrastructure.redis.RedisConnection;
 
 import redis.clients.jedis.Jedis;
 

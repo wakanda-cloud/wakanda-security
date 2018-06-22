@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.wakanda.security.service.User;
+import com.wakanda.security.service.UserAlreadyExistsException;
 
 import redis.clients.jedis.Jedis;
 

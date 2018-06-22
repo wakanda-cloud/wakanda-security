@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wakanda.security.infrastructure.redis.UserSessionHandler;
-
 @Service
 public class AuthService {
 

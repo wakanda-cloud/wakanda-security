@@ -1,4 +1,4 @@
-package com.wakanda.security.infrastructure.redis;
+package com.wakanda.security.service;
 
 public class UserAlreadyExistsException extends RuntimeException {
 
